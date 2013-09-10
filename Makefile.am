@@ -21,17 +21,20 @@
 #  SOFTWARE.
 #
 
-bin_PROGRAMS = msmtest
+bin_PROGRAMS = msmtest submittest
 
-msmtest_LDFLAGS = \
+LDFLAGS = \
 	-no-undefined
 
-msmtest_LDADD = \
+LDADD = \
 	$(DRM_LIBS)
 
-msmtest_CFLAGS = \
+CFLAGS = \
 	-O0 -g -lm \
 	$(DRM_CFLAGS)
 
 msmtest_SOURCES = \
 	msmtest.c
+
+submittest_SOURCES = \
+	submittest.c

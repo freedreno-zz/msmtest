@@ -26,5 +26,6 @@ depcomp
 .project
 .settings
 msmtest
+submittest
 tags
 TAGS
