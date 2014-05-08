@@ -21,7 +21,10 @@
 #  SOFTWARE.
 #
 
-bin_PROGRAMS = msmtest submittest
+bin_PROGRAMS =  \
+	msmtest \
+	submittest \
+	pm4test
 
 LDFLAGS = \
 	-no-undefined
@@ -38,3 +41,6 @@ msmtest_SOURCES = \
 
 submittest_SOURCES = \
 	submittest.c
+
+pm4test_SOURCES = \
+	pm4test.c

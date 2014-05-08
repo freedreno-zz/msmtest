@@ -27,5 +27,6 @@ depcomp
 .settings
 msmtest
 submittest
+pm4test
 tags
 TAGS

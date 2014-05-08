@@ -175,6 +175,9 @@ static int test_invalid_submit(int fd, struct fd_device *dev)
 	};
 	uint32_t *cmdbuf = fd_bo_map(cmd);
 
+	uint32_t name;
+	fd_bo_get_name(bo, &name);
+
 	/* CP_NOP packet, payload length 3:
 	 * (use a no-op packet so gpu will ignore)
 	 */
