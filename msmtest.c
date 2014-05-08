@@ -68,7 +68,7 @@ static struct drm_fb *drm_fb_new(struct fd_device *dev,
 	fb->height = height;
 	fb->stride = width * 4;
 
-	fb->bo = fd_bo_new(dev, fb->width * fb->stride, 0);
+	fb->bo = fd_bo_new(dev, fb->height * fb->stride, 0);
 
 	ret = drmModeAddFB(drm.fd, width, height, 24, 32, fb->stride,
 			fd_bo_handle(fb->bo), &fb->fb_id);
