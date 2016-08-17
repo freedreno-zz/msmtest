@@ -24,6 +24,7 @@
 bin_PROGRAMS =  \
 	msmtest \
 	submittest \
+	evilsubmittest \
 	pm4test
 
 LDFLAGS = \
@@ -41,6 +42,9 @@ msmtest_SOURCES = \
 
 submittest_SOURCES = \
 	submittest.c
+
+evilsubmittest_SOURCES = \
+	evilsubmittest.c
 
 pm4test_SOURCES = \
 	pm4test.c
