@@ -102,7 +102,7 @@ int main(int argc, char *argv[])
 	for (i = 0; i < SIZE; i++) {
 		OUT_PKT3(ring, CP_REG_TO_MEM, 2);
 		OUT_RING(ring, BASE + i);
-		OUT_RELOC(ring, bo, i * 4, 0);
+		OUT_RELOCW(ring, bo, i * 4, 0, 0);
 	}
 
 	fd_ringbuffer_flush(ring);

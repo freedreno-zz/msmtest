@@ -244,7 +244,7 @@ int main(int argc, char *argv[])
 	for (i = 0; i < 32 /*fb->height*/; i++) {
 		uint32_t sizedwords = 256;
 		OUT_PKT3(ring, CP_MEM_WRITE, sizedwords+1);
-		OUT_RELOC(ring, fb->bo, i * fb->stride, 0);
+		OUT_RELOCW(ring, fb->bo, i * fb->stride, 0, 0);
 		while (sizedwords--) {
 			OUT_RING(ring,
 				(sizedwords << 24) |

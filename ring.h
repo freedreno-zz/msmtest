@@ -48,27 +48,27 @@ OUT_RING(struct fd_ringbuffer *ring, uint32_t data)
 
 static inline void
 OUT_RELOC(struct fd_ringbuffer *ring, struct fd_bo *bo,
-		uint32_t offset, uint32_t or)
-{
-	if (LOG_DWORDS) {
-		DEBUG_MSG("ring[%p]: OUT_RELOC  %04x:  %p+%u", ring,
-				(uint32_t)(ring->cur - ring->last_start), bo, offset);
-	}
-	fd_ringbuffer_reloc(ring, &(struct fd_reloc){
-		.bo = bo,
-		.flags = FD_RELOC_READ | FD_RELOC_WRITE,
-		.offset = offset,
-		.or = or,
-	});
-}
-
-/* shifted reloc: */
-static inline void
-OUT_RELOCS(struct fd_ringbuffer *ring, struct fd_bo *bo,
 		uint32_t offset, uint32_t or, int32_t shift)
 {
 	if (LOG_DWORDS) {
-		DEBUG_MSG("ring[%p]: OUT_RELOCS  %04x:  %p+%u << %d", ring,
+		DEBUG_MSG("ring[%p]: OUT_RELOC   %04x:  %p+%u << %d", ring,
+				(uint32_t)(ring->cur - ring->last_start), bo, offset, shift);
+	}
+	fd_ringbuffer_reloc(ring, &(struct fd_reloc){
+		.bo = bo,
+		.flags = FD_RELOC_READ,
+		.offset = offset,
+		.or = or,
+		.shift = shift,
+	});
+}
+
+static inline void
+OUT_RELOCW(struct fd_ringbuffer *ring, struct fd_bo *bo,
+		uint32_t offset, uint32_t or, int32_t shift)
+{
+	if (LOG_DWORDS) {
+		DEBUG_MSG("ring[%p]: OUT_RELOCW  %04x:  %p+%u << %d", ring,
 				(uint32_t)(ring->cur - ring->last_start), bo, offset, shift);
 	}
 	fd_ringbuffer_reloc(ring, &(struct fd_reloc){
