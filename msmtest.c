@@ -195,7 +195,8 @@ int main(int argc, char *argv[])
 	struct fd_pipe *pipe;
 	struct fd_ringbuffer *ring;
 	struct drm_fb *fb;
-	uint32_t i = 0;
+	uint64_t val;
+	uint32_t gpu_id, i = 0;
 	int ret;
 
 	ret = init_drm();
@@ -220,6 +221,12 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 
+	if (fd_pipe_get_param(pipe, FD_GPU_ID, &val)) {
+		printf("could not get gpu-id\n");
+		return -1;
+	}
+	gpu_id = val;
+
 	ring = fd_ringbuffer_new(pipe, 0x10000);
 	if (!ring) {
 		printf("failed to initialize freedreno ring\n");
@@ -243,8 +250,13 @@ int main(int argc, char *argv[])
 	/* something simple.. try to write some data into the buffer: */
 	for (i = 0; i < 32 /*fb->height*/; i++) {
 		uint32_t sizedwords = 256;
-		OUT_PKT3(ring, CP_MEM_WRITE, sizedwords+1);
-		OUT_RELOCW(ring, fb->bo, i * fb->stride, 0, 0);
+		if (gpu_id >= 500) {
+			OUT_PKT7(ring, CP_MEM_WRITE, sizedwords+2);
+			OUT_RELOC64W(ring, fb->bo, i * fb->stride, 0, 0);
+		} else {
+			OUT_PKT3(ring, CP_MEM_WRITE, sizedwords+1);
+			OUT_RELOCW(ring, fb->bo, i * fb->stride, 0, 0);
+		}
 		while (sizedwords--) {
 			OUT_RING(ring,
 				(sizedwords << 24) |
